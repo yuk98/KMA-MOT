@@ -14,9 +14,9 @@ from datetime import datetime
 import os
 from PyQt5.QtCore import Qt, QTimer, QThread
 from shapely.geometry import Polygon
-import matplotlib
 import multiprocessing
-import winsound
+if os.name == 'nt':
+    import winsound
 
 
 model = YOLO('yolov8n.pt')  
@@ -158,9 +158,11 @@ class SoundThread(QThread):
         self.in_loop = False
         while self.running:
             self.in_loop = True
-            # os.system('aplay '+ wav_file_path) # Play sound
             # wav 파일 재생
-            winsound.PlaySound( wav_file_path, winsound.SND_FILENAME)
+            if os.name == 'nt':
+                winsound.PlaySound( wav_file_path, winsound.SND_FILENAME)
+            else:
+                os.system('aplay '+ wav_file_path) # Play sound
 
             self.in_loop = False
               # Short delay to prevent rapid looping
