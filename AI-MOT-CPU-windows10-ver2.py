@@ -29,10 +29,8 @@ os.makedirs(asset_dir_path, exist_ok=True)
 ROI_points_file_path = os.path.join(asset_dir_path, ROI_points_file_path)
 icon_img_path = os.path.join(asset_dir_path, 'kma.svg')
 wav_file_path =  os.path.join(asset_dir_path, 'warn2.wav') 
-from new_frame import custom_frame
-matplotlib_path = os.path.dirname(matplotlib.__file__)
-print("Matplotlib path:", matplotlib_path)
 
+from new_frame import custom_frame
 
 
 # 디렉토리 안의 모든 파일 삭제
@@ -493,7 +491,7 @@ class PolygonLabel(QLabel):
 
 
 if __name__ == '__main__':
-    multiprocessing.freeze_support()
+    # multiprocessing.freeze_support()
     app = QApplication(sys.argv)
     mainWin = FramelessWindow()
     mainWin.show()

@@ -22,7 +22,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='육사교-MOT',
+    name='KMA-MOT',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

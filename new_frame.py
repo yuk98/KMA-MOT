@@ -1,13 +1,16 @@
 import sys
 from PyQt5.QtCore import Qt, QPoint, QRect
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QToolBar,QToolButton, QSizePolicy,QLabel
-from PyQt5.QtGui import QCursor, QFont
-from PyQt5.QtGui import QPainter, QPen, QColor
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QToolBar,QToolButton, QSizePolicy, QLabel, QAction
+from PyQt5.QtGui import QCursor, QFont, QIcon
 from PyQt5.QtCore import Qt
 
 import os
 asset_dir_path = "asset"
 asset_dir_path = os.path.join(os.getcwd(), asset_dir_path)
+toolbar_logo_path = os.path.join(asset_dir_path, 'logo1.png')
+toolbar_logo2_path = os.path.join(asset_dir_path, 'logo3.png')
+print(toolbar_logo2_path)
+
 toolbar_img_path = os.path.join(asset_dir_path, 'toolbar_img.png')
 toolbar_img_path = "/".join(toolbar_img_path.split("\\"))
 
@@ -29,7 +32,6 @@ class custom_frame(QMainWindow):
         self._start_pos = None
         self._moving = False
 
-
         # 툴바 추가
         self.toolbar = QToolBar("Toolbar")
         self.toolbar_img_path = toolbar_img_path
@@ -41,10 +43,10 @@ class custom_frame(QMainWindow):
         # exit()
         button_size = 30
         self.toolbar.setFixedHeight(button_size)
-        self.toolbar.setStyleSheet("color: white;border: none;background-position: center;background-color: rgba(100, 100, 100, 100);".format(toolbar_img_path))  # 툴바 배경을 반투명 회색으로 설정
+        self.toolbar.setStyleSheet("color: white;background-position: center;background-color: rgba(200, 200, 200, 255);".format(toolbar_img_path))  # 툴바 배경을 반투명 회색으로 설정
 
         # 버튼 스타일 설정
-        button_style = "QToolButton { width: 1px; height: 1px;  color: white; rgba(255, 255, 255, 255)}"
+        button_style = "QToolButton { color: white;}"
 
         # 스페이서 추가 (왼쪽 빈 공간)
         left_spacer = QWidget()
@@ -52,11 +54,19 @@ class custom_frame(QMainWindow):
         self.toolbar.addWidget(left_spacer)
 
         # 중앙 텍스트 추가
-        central_label = QLabel("KMA AI MOT", self)
-        font = QFont("Arial", 20, QFont.Bold)  # 폰트 이름, 크기, 굵기 설정
+        # 로고 아이콘 설정 (로고 이미지 파일 경로를 사용)
+        logo_action = QAction(QIcon(toolbar_logo_path), "Logo", self)
+        # logo_action.setFixedSize(button_size, button_size)
+        # logo_action.setFixed
+        self.toolbar.addAction(logo_action)
+        central_label = QLabel(" AI-powered Surveillance System ", self)
+        font = QFont("Arial", 14, QFont.Bold)  # 폰트 이름, 크기, 굵기 설정
         central_label.setFont(font)
-        central_label.setStyleSheet("background-color: rgba(100, 100, 100, 100);color: rgba(0, 100, 0, 255);border: none;") 
+        central_label.setStyleSheet("background-color: rgba(200, 200, 200, 255);color: rgba(0, 100, 0, 255);border: none;") 
         self.toolbar.addWidget(central_label)
+        logo_action2 = QAction(QIcon(toolbar_logo2_path), "Logo", self)
+        self.toolbar.addAction(logo_action2)
+
 
         spacer = QWidget()
         spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
@@ -69,7 +79,7 @@ class custom_frame(QMainWindow):
         minimize_button.setText("-")
         minimize_button.setFixedSize(button_size, button_size)
         minimize_button.setStyleSheet(button_style)
-        minimize_button.setStyleSheet("background-color: rgba(255, 255, 255, 150); border: none;")
+        minimize_button.setStyleSheet("background-color: rgba(100, 100, 100, 255);")
         minimize_button.clicked.connect(self.showMinimized)
         self.toolbar.addWidget(minimize_button)
 
@@ -79,7 +89,7 @@ class custom_frame(QMainWindow):
         maximize_button.setText("□")
         maximize_button.setFixedSize(button_size, button_size)
         maximize_button.setStyleSheet(button_style)
-        maximize_button.setStyleSheet("background-color: rgba(0, 0, 255, 150); border: none;")
+        maximize_button.setStyleSheet("background-color: rgba(0, 175, 0, 255);")
         maximize_button.clicked.connect(self.toggle_maximized)
         self.toolbar.addWidget(maximize_button)
 
@@ -88,9 +98,10 @@ class custom_frame(QMainWindow):
         close_button.setText("×")
         close_button.setFixedSize(button_size, button_size)
         close_button.setStyleSheet(button_style)
-        close_button.setStyleSheet("background-color: rgba(255, 0, 0, 150); border: none;")
+        close_button.setStyleSheet("background-color: rgba(255, 0, 0, 255);")
         close_button.clicked.connect(self.close)
         self.toolbar.addWidget(close_button)
+        
         self.toolbar.mousePressEvent = self.toolbar_mousePressEvent
         self.toolbar.mouseMoveEvent = self.toolbar_mouseMoveEvent
         self.toolbar.mouseReleaseEvent = self.toolbar_mouseReleaseEvent
